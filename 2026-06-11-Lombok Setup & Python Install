@@ -1,0 +1,51 @@
+# 2026-06-11 TIL — Lombok Setup & Python Install
+
+## 1. Lombok Eclipse 설치
+
+**Lombok이란?**
+```
+Java 개발할 때 반복적으로 써야 하는
+getter, setter, constructor, toString 등을
+어노테이션 하나로 자동 생성해주는 라이브러리
+```
+
+**왜 Eclipse에 별도 설치가 필요한가?**
+```
+Maven(pom.xml)에 추가 → 컴파일할 때 적용
+Eclipse IDE에 설치    → 코드 작성할 때 인식
+
+둘 다 해야 @Data, @RequiredArgsConstructor 등이
+Eclipse에서 정상 작동함
+```
+
+**설치 방법:**
+```bash
+java -jar ~/.m2/repository/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar
+# 설치 창에서 Eclipse.app 선택
+# Install/Update 클릭 → Eclipse 재시작
+```
+
+**주요 어노테이션:**
+```java
+@Data                    // getter + setter + toString 자동 생성
+@RequiredArgsConstructor // final 필드 생성자 자동 생성
+@NoArgsConstructor       // 기본 생성자 자동 생성
+@AllArgsConstructor      // 전체 필드 생성자 자동 생성
+```
+
+---
+
+## 2. Python 설치
+
+**Python이란?**
+```
+AI/데이터 분석/자동화에 많이 쓰이는 프로그래밍 언어
+Django 프레임워크로 백엔드 개발 가능
+Gemini API 챗봇, LSTM 감성분석 모델에 활용
+```
+
+**설치 확인 명령어:**
+```bash
+python3 --version
+pip3 --version
+```
