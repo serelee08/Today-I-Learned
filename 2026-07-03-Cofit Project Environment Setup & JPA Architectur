@@ -1,0 +1,49 @@
+# 2026-07-03 — Cofit 프로젝트 환경 구축 및 JPA 백엔드 아키텍처 학습
+
+## 1. 프로젝트 개요 (Cofit-Backend)
+피트니스 플랫폼 'Cofit'의 백엔드 시스템 구축. 안정적인 데이터 관리와 객체지향적인 설계를 위해 기존 MyBatis에서 Spring Data JPA로 기술 스택을 전환하여 개발을 시작했다.
+
+- **Tech Stack:** Java 21, Spring Boot 3.5.16, MySQL 8.0, Spring Data JPA, Lombok
+- **DB 연동:** `application.properties`를 활용한 MySQL 데이터베이스 커넥션 풀 설정 및 Hibernate `ddl-auto=update` 옵션을 통한 자동 스키마 매핑.
+
+---
+
+## 2. 백엔드 핵심 아키텍처 및 역할 분리
+데이터베이스와 외부 API 사이의 독립성을 보장하고 유지보수성을 극대화하기 위해 계층화 아키텍처(Layered Architecture)를 적용했다.
+
+### 주요 계층 구조
+* **Entity:** DB 테이블과 매핑되는 도메인 모델. `@Entity`, `@Id`를 사용하여 영속성을 부여.
+* **Repository:** `JpaRepository`를 상속받아 인터페이스만으로 복잡한 CRUD 쿼리를 해결.
+* **Service:** 비즈니스 로직의 핵심. Repository를 주입받아 트랜잭션 단위로 로직을 수행.
+* **DTO (Data Transfer Object):** 데이터 전송 전용 객체. Entity가 DB 구조를 그대로 노출하는 문제를 해결하고, 필요한 필드만 선별하여 클라이언트에 전달.
+* **Controller:** `@RestController`를 통해 HTTP 요청을 처리하고, Service 결과를 JSON으로 반환.
+
+
+
+---
+
+## 3. 심화 학습: JPA & 데이터베이스 연동 포인트
+
+### 1) MyBatis vs JPA (생산성과 객체지향)
+MyBatis는 SQL 직접 제어의 장점이 있으나, JPA는 엔티티 정의만으로 시스템의 기본 뼈대가 완성된다. 특히 반복되는 SQL 작성에서 벗어나 '객체 중심'으로 데이터를 다룰 수 있어 도메인 로직 구현에 더 집중할 수 있게 되었다.
+
+### 2) DTO를 사용하는 이유 (소스의 진실성 확보)
+Entity를 Controller에서 바로 반환하면 데이터베이스의 스키마 구조가 클라이언트에게 그대로 노출된다. 또한, JOIN으로 가공된 데이터를 전달해야 할 때 DTO를 사용함으로써 **"데이터 전달 객체"**와 **"DB 매핑 객체"**의 책임을 명확히 분리했다.
+
+### 3) DB 연동의 기술적 이슈 해결
+- **새로고침 이슈:** DBeaver나 Eclipse에서 DB 변경 사항이 즉시 보이지 않을 때 `Refresh`를 통해 인프라 동기화하는 법을 익힘.
+- **연결 설정:** `serverTimezone=UTC` 설정 및 `characterEncoding=UTF-8`을 통해 로컬 환경과 DB 간의 인코딩/시간 이슈를 원천 차단함.
+
+---
+
+## 4. 학습 회고 및 Insight
+- **설계의 중요성:** 패키지 이름을 `api`로 할지 `controller`로 할지 고민하는 과정에서, 코드의 가독성과 명확한 역할 부여가 얼마나 중요한지 체감했다.
+- **JPA의 마법:** `JpaRepository`만으로 쿼리 메서드(`findBy...`)를 생성하여 복잡한 DB 접근 로직을 한 줄로 끝내는 생산성을 경험했다.
+
+---
+
+## 🚀 다음 할 일
+1.  **엔티티 연관관계 매핑:** `User`와 `UserGoal` 간의 `@OneToMany`, `@ManyToOne` 관계 설정.
+2.  **DTO 변환:** Entity를 DTO로 변환하는 Mapper 구현(또는 수동 변환 메소드 작성).
+3.  **예외 처리:** 서버 요청 실패 시(404, 500 에러) 사용자에게 깔끔한 응답을 주기 위한 Global Exception 처리.
+4.  **테스트:** `UserRepository` 테스트 코드를 작성하여 DB 저장 및 조회가 의도대로 되는지 검증.
