@@ -3,7 +3,7 @@
 매일 배운 내용을 기록하는 학습 노트입니다.
 
 ## 주제
-- Java / Spring Boot / MyBatis
+- Java / Spring Boot / MyBatis / JPA
 - Python / Django
 - React
 - C#
