@@ -2,7 +2,7 @@
 
 ## 오늘 한 일
 
-ANH코리아 입사 첫날. PROC(Procurement) Ch.1/6/7과 VMC(Vendor Collaboration) Module 1~5를 학습했다.
+입사첫날 PROC(Procurement) Ch.1/6/7과 VMC(Vendor Collaboration) Module 1~5를 학습했다.
 
 1. **2.1 Configure and perform the procure-to-purchase process**
    구매요청(PR) → 구매주문(PO) → 입고(Product Receipt) → 송장(Vendor Invoice) 전체 흐름 학습
