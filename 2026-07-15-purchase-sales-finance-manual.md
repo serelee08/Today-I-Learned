@@ -87,7 +87,7 @@ Released Products 릴리즈 아이템
 | **메뉴 경로** | `Procurement and sourcing > Purchase orders > All purchase orders > New`<br>`→ Vendor 선택 → Add line으로 Item/수량/단가 입력 → Confirm` |
 | **목적** | 벤더에게 보낼 공식 주문서를 생성하고 확정. Confirm 시점까지는 재고/회계에 영향 없음 ("주문서만 던진" 상태). |
 
-Item 마스터 등록 화면 — 신규 품목 생성 단계
+Item 신규 구매주문서 생성, Vendor 선택 단계
 ![Purchase order 생성 (헤더)](./images/Purchase%20order%20생성.jpeg)
 
 Manage costs 탭 — Price(원가) 입력 화면, 이게 없으면 입고 시 에러 발생
