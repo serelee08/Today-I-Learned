@@ -109,7 +109,8 @@ Purchase order Confirm 후 상태 화면 — Approval/PO status가 Confirmed로 
 | **메뉴 경로** | `PO 화면 > Receive > Product receipt`<br>`→ Site/Warehouse/Location 지정 → Post` |
 | **목적** | 실제 입고를 기록. 이 시점부터 InventTrans 발생, 재고 수량(물리적) 증가. 회계는 잠정(Product receipt accrual) 계정만 걸림. |
 
-Product receipt 처리 화면 — Site/Warehouse/Location/tracking etc.. 입력 후 저장
+Product Receipt은 **물건 흐름(재고)**을 확정하는 단계
+Receive -> Product receipt -> OK 클릭
 ![Product receipt 처리 화면](./images/Product-receipt.jpeg)
 
 Product receipt 처리 이력 목록 — 등록된 입고 건 확인
