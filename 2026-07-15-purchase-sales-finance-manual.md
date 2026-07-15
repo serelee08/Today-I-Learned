@@ -37,6 +37,7 @@
 | **메뉴 경로** | `Accounts receivable > Customers > All customers > New` |
 | **목적** | 향후 판매(Sales order) 시 선택할 고객을 마스터 데이터로 등록. Customer group 코드를 확인하여, 이 그룹이 어떤 회계 계정(매출채권)과 연결되는지 파악. |
 
+Register a new Customer (Accounts Receivable)- 신규 고객등록
 ![Customer 등록](./images/register%20customer.jpeg)
 
 **설명 / 확인 포인트:** Customer group 필드에 어떤 옵션이 있는지 확인. 등록 직후에는 재고/회계 영향이 전혀 없는 상태임을 확인.
@@ -51,6 +52,7 @@
 | **메뉴 경로** | `Accounts payable > Vendors > All vendors > New` |
 | **목적** | 향후 구매(Purchase order) 시 선택할 공급업체를 마스터 데이터로 등록. Vendor group 코드를 확인. |
 
+Register a new Vendor (Accounts Payable) - 신규 공급자(Vendor) 등록
 ![Vendor 등록](./images/register%20vendor.jpeg)
 
 **설명 / 확인 포인트:** Vendor group이 매입채무(AP) 계정과 어떻게 연결되는지 확인. Customer 등록과 구조가 동일한지 비교.
@@ -65,8 +67,10 @@
 | **메뉴 경로** | `Product information management > Products > All products > New`<br>`→ Release products (Legal entity: USMF 체크)`<br>`→ Manage costs 탭 > Price 필드에 원가 입력` |
 | **목적** | 사고팔 대상 품목을 등록하고, USMF 법인에서 실제로 사용 가능하도록 릴리즈. 릴리즈 전에는 PO/SO에서 선택 불가. 원가(Cost price)가 없으면 Product receipt 단계에서 "No cost rollup" 에러 발생. |
 
+Register an Item, release it to Legal entity (USMF), and set the cost price - 상품 등록 
 ![Item 등록](./images/register%20item.jpeg)
 
+Released Products 릴리즈 아이템 
 ![Item Manage costs에서 원가 설정](./images/item-manage%20cost%20-set%20the%20price.jpeg)
 
 **설명 / 확인 포인트:** All products에는 보이는데 Released products에는 안 보이면 릴리즈 누락. Release products 액션 실행 후 재확인. **Manage costs 탭의 Item group, Storage/Tracking dimension group, Product lifecycle state(Operational), Price(원가)까지 전부 채워져야 PO 라인 및 입고 처리가 정상 작동함.**
@@ -83,10 +87,13 @@
 | **메뉴 경로** | `Procurement and sourcing > Purchase orders > All purchase orders > New`<br>`→ Vendor 선택 → Add line으로 Item/수량/단가 입력 → Confirm` |
 | **목적** | 벤더에게 보낼 공식 주문서를 생성하고 확정. Confirm 시점까지는 재고/회계에 영향 없음 ("주문서만 던진" 상태). |
 
+Item 마스터 등록 화면 — 신규 품목 생성 단계
 ![Purchase order 생성 (헤더)](./images/Purchase%20order%20생성.jpeg)
 
+Manage costs 탭 — Price(원가) 입력 화면, 이게 없으면 입고 시 에러 발생
 ![Purchase order 라인 추가](./images/Purchaes-addlines.jpeg)
 
+Purchase order Confirm 후 상태 화면 — Approval/PO status가 Confirmed로 변경됨
 ![Purchase order Confirm](./images/Purchase-confirm.jpeg)
 
 **설명 / 확인 포인트:** Confirm 직후 PO 상태(Approval status / Purchase order status)가 "Confirmed"로 바뀌는지 확인. Change management가 설정되어 있으면 Confirm 전에 Submit → 승인(Approve) 절차가 먼저 필요.
@@ -101,10 +108,13 @@
 | **메뉴 경로** | `PO 화면 > Receive > Product receipt`<br>`→ Site/Warehouse/Location 지정 → Post` |
 | **목적** | 실제 입고를 기록. 이 시점부터 InventTrans 발생, 재고 수량(물리적) 증가. 회계는 잠정(Product receipt accrual) 계정만 걸림. |
 
+Product receipt 처리 화면 — Site/Warehouse/Location 입력 후 저
 ![Product receipt 처리 화면](./images/Product-receipt.jpeg)
 
+Product receipt 처리 이력 목록 — 등록된 입고 건 확인
 ![Product receipt 목록 확인](./images/Product-receipt%20list.jpeg)
 
+Inventory transactions 조회 화면 — Receipt 상태가 Received로 반영됨
 ![생성된 재고 트랜잭션 확인](./images/생성된%20재고확인.jpeg)
 
 **설명 / 확인 포인트:** Inventory management > Inquiries > Transactions에서 Receipt 컬럼이 "Received"로, Physical date에 오늘 날짜가 채워졌는지 확인. Item에 원가(Cost price)가 없으면 "No cost rollup is found for this item" 에러로 처리가 취소되므로, Step 3에서 원가 설정이 선행되어야 함.
