@@ -37,7 +37,7 @@
 | **메뉴 경로** | `Accounts receivable > Customers > All customers > New` |
 | **목적** | 향후 판매(Sales order) 시 선택할 고객을 마스터 데이터로 등록. Customer group 코드를 확인하여, 이 그룹이 어떤 회계 계정(매출채권)과 연결되는지 파악. |
 
-![Customer 등록](./register%20customer.jpeg)
+![Customer 등록](./images/register%20customer.jpeg)
 
 **설명 / 확인 포인트:** Customer group 필드에 어떤 옵션이 있는지 확인. 등록 직후에는 재고/회계 영향이 전혀 없는 상태임을 확인.
 
@@ -51,7 +51,7 @@
 | **메뉴 경로** | `Accounts payable > Vendors > All vendors > New` |
 | **목적** | 향후 구매(Purchase order) 시 선택할 공급업체를 마스터 데이터로 등록. Vendor group 코드를 확인. |
 
-![Vendor 등록](./register%20vendor.jpeg)
+![Vendor 등록](./images/register%20vendor.jpeg)
 
 **설명 / 확인 포인트:** Vendor group이 매입채무(AP) 계정과 어떻게 연결되는지 확인. Customer 등록과 구조가 동일한지 비교.
 
@@ -65,9 +65,9 @@
 | **메뉴 경로** | `Product information management > Products > All products > New`<br>`→ Release products (Legal entity: USMF 체크)`<br>`→ Manage costs 탭 > Price 필드에 원가 입력` |
 | **목적** | 사고팔 대상 품목을 등록하고, USMF 법인에서 실제로 사용 가능하도록 릴리즈. 릴리즈 전에는 PO/SO에서 선택 불가. 원가(Cost price)가 없으면 Product receipt 단계에서 "No cost rollup" 에러 발생. |
 
-![Item 등록](./register%20item.jpeg)
+![Item 등록](./images/register%20item.jpeg)
 
-![Item Manage costs에서 원가 설정](./item-manage%20cost%20-set%20the%20price.jpeg)
+![Item Manage costs에서 원가 설정](./images/item-manage%20cost%20-set%20the%20price.jpeg)
 
 **설명 / 확인 포인트:** All products에는 보이는데 Released products에는 안 보이면 릴리즈 누락. Release products 액션 실행 후 재확인. **Manage costs 탭의 Item group, Storage/Tracking dimension group, Product lifecycle state(Operational), Price(원가)까지 전부 채워져야 PO 라인 및 입고 처리가 정상 작동함.**
 
@@ -83,11 +83,11 @@
 | **메뉴 경로** | `Procurement and sourcing > Purchase orders > All purchase orders > New`<br>`→ Vendor 선택 → Add line으로 Item/수량/단가 입력 → Confirm` |
 | **목적** | 벤더에게 보낼 공식 주문서를 생성하고 확정. Confirm 시점까지는 재고/회계에 영향 없음 ("주문서만 던진" 상태). |
 
-![Purchase order 생성 (헤더)](./Purchase%20order%20생성.jpeg)
+![Purchase order 생성 (헤더)](./images/Purchase%20order%20생성.jpeg)
 
-![Purchase order 라인 추가](./Purchaes-addlines.jpeg)
+![Purchase order 라인 추가](./images/Purchaes-addlines.jpeg)
 
-![Purchase order Confirm](./Purchase-confirm.jpeg)
+![Purchase order Confirm](./images/Purchase-confirm.jpeg)
 
 **설명 / 확인 포인트:** Confirm 직후 PO 상태(Approval status / Purchase order status)가 "Confirmed"로 바뀌는지 확인. Change management가 설정되어 있으면 Confirm 전에 Submit → 승인(Approve) 절차가 먼저 필요.
 
