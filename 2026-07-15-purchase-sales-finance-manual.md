@@ -108,13 +108,13 @@ Purchase order Confirm 후 상태 화면 — Approval/PO status가 Confirmed로 
 | **메뉴 경로** | `PO 화면 > Receive > Product receipt`<br>`→ Site/Warehouse/Location 지정 → Post` |
 | **목적** | 실제 입고를 기록. 이 시점부터 InventTrans 발생, 재고 수량(물리적) 증가. 회계는 잠정(Product receipt accrual) 계정만 걸림. |
 
-Product receipt 처리 화면 — Site/Warehouse/Location 입력 후 저
+Product receipt 처리 화면 — Site/Warehouse/Location/tracking etc.. 입력 후 저장
 ![Product receipt 처리 화면](./images/Product-receipt.jpeg)
 
 Product receipt 처리 이력 목록 — 등록된 입고 건 확인
 ![Product receipt 목록 확인](./images/Product-receipt%20list.jpeg)
 
-Inventory transactions 조회 화면 — Receipt 상태가 Received로 반영됨
+Inventory transactions 조회 화면 — Receipt 상태가 Received로 반영되야함
 ![생성된 재고 트랜잭션 확인](./images/생성된%20재고확인.jpeg)
 
 **설명 / 확인 포인트:** Inventory management > Inquiries > Transactions에서 Receipt 컬럼이 "Received"로, Physical date에 오늘 날짜가 채워졌는지 확인. Item에 원가(Cost price)가 없으면 "No cost rollup is found for this item" 에러로 처리가 취소되므로, Step 3에서 원가 설정이 선행되어야 함.
