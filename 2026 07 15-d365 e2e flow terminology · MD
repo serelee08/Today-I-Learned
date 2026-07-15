@@ -1,0 +1,133 @@
+# 2026-07-15 — D365 F&SCM: End-to-End Flow (선임 가이드 10단계) & 핵심 용어 정리
+
+## 오늘 한 일
+
+선임님이 메신저로 보내주신 **"고객 등록부터 시작해서 구매-판매-회계를 한 바퀴 도는 10단계 가이드"**를 기반으로, 한 모듈만 깊게 파는 대신 D365 전체 흐름을 1회독하는 실습을 시작했다. 오늘은 1단계(Customer 등록)까지 진행하고, 등록 시점에 실제로 무슨 일이 일어나는지(혹은 안 일어나는지) 개념을 명확히 잡는 데 집중했다.
+
+---
+
+## 선임님이 주신 전체 10단계 (원문 기준)
+
+```
+1. Accounts receivable > Customer 신규등록 (고객그룹 코드 확인)
+2. Accounts payable > Vendor 신규등록 (벤더그룹 코드 확인)
+3. Product information management > Item 등록 → Released product로 USMF에 릴리즈
+4. Procurement and sourcing > Purchase order 생성 → Confirm(발주확정)
+5. PO 화면 > Receive > Product receipt 처리 (Site/Warehouse/Location 지정, InventTrans 발생)
+6. Vendor invoice 처리 (Three-way match: PO-입고-인보이스 대사, AP 확정)
+7. Vendor payment journal/Payment proposal로 지급 처리 → Settle
+8. Sales and marketing > Sales order 생성 → Confirm(수주확정)
+9. Packing slip 처리(출고) → Sales invoice 발행(AR 확정)
+10. Customer payment journal로 수금 처리 → Settle, Voucher transaction으로 회계전기 확인
+```
+
+**선임님 핵심 지시사항:** "한 모듈만 깊게 파는 것보다, 전체 흐름을 먼저 한 바퀴 도는 게 지금 단계에 맞다." 완벽한 이해보다 1회독을 우선하라는 방향.
+
+**선임님이 정정해준 부분:** 표준 플로우는 반드시 **입고(Receive)가 인보이스보다 먼저** 온다. (발주→송장→입고 순서는 선급/선지급 같은 예외 케이스에서만 씀)
+
+---
+
+## 오늘 배운 것 (개념)
+
+### Customer 등록 = "아직 아무 일도 안 일어난 상태"
+
+Customer를 Accounts receivable에 등록하는 것은 단순히 "이런 고객이 있다"는 정보를 저장하는 것뿐이다. 이 시점에는:
+- 재고 영향 없음
+- 회계 영향 없음
+- AR(매출채권) 잔액 0원, 거래 이력 없음
+
+**실제로 AR에 숫자가 찍히는 시점은 Sales Invoice가 발행되는 순간**이다. Customer 등록 → Sales order → Confirm → Packing slip(출고) → **Sales Invoice(여기서 AR 확정)** → Customer Payment(AR 청산) 순서로, Invoice 발행 전까지는 그 어떤 단계도 AR을 건드리지 않는다.
+
+### Accounts Receivable / Accounts Payable의 본질
+
+```
+Accounts Receivable (AR) = 우리가 "받을" 돈을 관리하는 영역 → Customer가 여기 소속
+Accounts Payable (AP)    = 우리가 "줄" 돈을 관리하는 영역 → Vendor가 여기 소속
+```
+
+Customer가 AR 안에 있는 이유는, 고객은 결국 우리에게 물건값을 낼 대상이기 때문이다. Vendor가 AP 안에 있는 이유는, 벤더는 우리가 물건값을 지급할 대상이기 때문이다. 이 둘은 완전히 대칭 구조다.
+
+---
+
+## 핵심 용어 정리 (한/영)
+
+### 1. 회계 기본 구분
+
+| 영어 | 한국어 | 뜻 |
+|---|---|---|
+| Accounts Receivable (AR) | 매출채권 / 받을 돈 | 고객이 우리한테 낼 돈을 관리하는 영역 |
+| Accounts Payable (AP) | 매입채무 / 줄 돈 | 우리가 벤더한테 줄 돈을 관리하는 영역 |
+| General Ledger (GL) | 총계정원장 | 모든 회계 거래가 최종적으로 기록되는 장부 |
+| Voucher | 전표 | 하나의 거래가 회계적으로 기록될 때 생기는 문서(분개 내역) |
+
+### 2. 마스터 데이터
+
+| 영어 | 한국어 | 뜻 |
+|---|---|---|
+| Customer | 고객 | 우리한테 물건을 사가는 대상 (AR 소속) |
+| Vendor | 공급업체 / 벤더 | 우리가 물건을 사오는 대상 (AP 소속) |
+| Item | 품목 | 사고파는 대상 물건 |
+| Customer group / Vendor group | 고객·벤더 그룹 | 분류 기준, 회계계정 자동 연결에 쓰임 |
+| Released product | 릴리즈된 품목 | 특정 Legal entity에서 실제 사용 가능하게 등록된 품목 상태 |
+| Legal entity | 법인 / 회사 코드 | D365 안에서 하나의 독립된 회사 단위 (예: USMF) |
+
+### 3. 구매(Procure-to-Pay) 흐름
+
+| 영어 | 한국어 | 뜻 |
+|---|---|---|
+| Purchase Order (PO) | 구매주문 | 벤더에게 보내는 공식 주문서 |
+| Confirm | 확정 | PO를 벤더에게 정식 발송. 이 시점까진 재고/회계 영향 없음 |
+| Product Receipt | 입고 | 물건이 실제로 도착한 걸 기록. 재고 수량만 증가, 회계는 잠정(accrual) |
+| Vendor Invoice | 매입 인보이스 | 벤더 청구서 처리. 이 시점에 AP가 확정됨 |
+| Three-way matching | 3자 대사 | PO-입고-인보이스 세 문서의 수량/금액 대조 |
+| Payment / Settle | 지급 / 정산 | 실제 지급 후 AP를 청산(0으로 만듦) |
+
+### 4. 판매(Order-to-Cash) 흐름
+
+| 영어 | 한국어 | 뜻 |
+|---|---|---|
+| Sales Order (SO) | 판매주문 | 고객으로부터 받는 주문서 |
+| Packing Slip | 출고 명세서 | 물건이 실제로 나간 걸 기록. 재고 감소 |
+| Sales Invoice | 매출 인보이스 | 고객 청구서. 이 시점에 AR이 확정됨 |
+| Customer Payment | 수금 | 고객 결제 기록, AR 청산 |
+
+### 5. 재고
+
+| 영어 | 한국어 | 뜻 |
+|---|---|---|
+| InventTrans | 재고 트랜잭션 | 재고 이동마다 생기는 기록 |
+| Physical inventory | 물리적 재고 | 실제 창고 수량 |
+| Financial inventory | 재무적 재고 | 회계장부상 확정된 재고 가치 |
+| Site / Warehouse / Location | 사이트 / 창고 / 위치 | 재고 위치를 나타내는 3단계 정보 |
+
+### 6. 통제 (Workflow/Security)
+
+| 영어 | 한국어 | 뜻 |
+|---|---|---|
+| Change management | 변경 관리 | PO 확정 전 승인 절차를 강제하는 설정 |
+| Workflow | 워크플로우 | 승인 절차(결재 라인) 설계 시스템 |
+| Approver | 승인자 | 워크플로우 승인 권한자 |
+| Requester | 요청자 | 문서를 제출하는 사람 |
+
+---
+
+## 막혔던 점 & 해결
+
+| 막힌 점 | 원인 | 해결 |
+|---|---|---|
+| "Customer 등록 = 이미 거래한 고객"으로 착각 | AR/AP의 "잔액이 생기는 시점"과 "마스터 데이터 등록 시점"을 혼동 | 등록은 정보 저장일 뿐이고, 실제 금액은 Invoice 발행 시점에만 생긴다는 것을 타임라인으로 재정리하며 이해 |
+
+---
+
+## 더 공부할 것
+
+- [ ] 2단계 Vendor 등록 진행 (Accounts payable)
+- [ ] 3단계 Item 등록 및 USMF 릴리즈
+- [ ] 4~7단계 구매 사이클 실습 (PO → 입고 → 인보이스 → 지급)
+- [ ] 8~10단계 판매 사이클 실습 (SO → 출고 → 인보이스 → 수금)
+- [ ] 각 단계마다 Voucher transaction을 직접 열어서 회계 전기 확인하는 습관 들이기
+- [ ] 등록한 Customer의 Balance/Transaction 탭을 Invoice 전후로 비교해서 눈으로 확인
+
+---
+
+**Author:** [@serelee08](https://github.com/serelee08)
